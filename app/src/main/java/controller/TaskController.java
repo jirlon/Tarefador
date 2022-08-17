@@ -21,7 +21,8 @@ import util.ConnectionFactory;
 public class TaskController {
     
     public void save(Task task){
-        String sql = "INSERT INTO tasks (idProject"
+        String sql = "INSERT INTO tasks ("
+                + "idProject,"
                 + "name,"
                 + "description,"
                 + "completed,"
@@ -41,7 +42,7 @@ public class TaskController {
             statement.setString(3, task.getDescription());
             statement.setBoolean(4, task.isIsCompleted());
             statement.setString(5, task.getNotes());
-            statement.setDate(6, new Date(task.getCreatedAt().getTime()));
+            statement.setDate(6, new Date(task.getDeadline().getTime()));
             statement.setDate(7, new Date(task.getCreatedAt().getTime()));
             statement.setDate(8, new Date(task.getUpdateAt().getTime()));
             statement.execute();
