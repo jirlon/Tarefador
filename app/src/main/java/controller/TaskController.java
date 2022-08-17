@@ -47,7 +47,7 @@ public class TaskController {
             throw new RuntimeException("Erro ao salvar a tarefa"
                 + ex.getMessage(), ex);
             }   finally {
-            connectionFactory.closeConnection(connection);
+            ConnectionFactory.closeConnection(connection, statement);
         }
              
     }
@@ -67,10 +67,10 @@ public class TaskController {
             statement = conn.prepareStatement(sql);
             statement.setInt(1, taskId);
             statement.execute();
-        } catch (SQLException e){
-            throw new SQLException("Erro ao deletar a tarefa");
+        } catch (Exception ex){
+            throw new RuntimeException("Erro ao deletar a tarefa" + ex.getMessage(), ex);
             } finally {
-                ConnectionFactory.closeConnection(conn);
+                ConnectionFactory.closeConnection(conn, statement);
             }
     }
     
