@@ -3,19 +3,32 @@
  */
 package Tarefador;
 
+import controller.ProjectController;
 import java.sql.Connection;
+import java.util.List;
+import model.Project;
 import util.ConnectionFactory;
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        ProjectController projectController = new ProjectController();
         
-        Connection c = ConnectionFactory.getConnection();
+        /*Project project = new Project();
+        project.setName("Projeto teste1");
+        project.setDescription("primeiro projeto do app tarefador");
+        projectController.save(project);*/
         
-        ConnectionFactory.closeConnection(c);
+        /*Project project2 = new Project();
+        project2.setId(2);
+        project2.setName("alterando o nome de projeto");
+        project2.setDescription("alterando a descrição");*/
+        
+        //projectController.update(project2);
+        
+        //projectController.removeById(1);
+        
+        List<Project> projects = projectController.getAll();
+        System.out.println("Total de projetos: " + projects.size());
     }
 }
