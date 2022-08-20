@@ -4,9 +4,12 @@
 package Tarefador;
 
 import controller.ProjectController;
+import controller.TaskController;
 import java.sql.Connection;
+import java.util.Date;
 import java.util.List;
 import model.Project;
+import model.Task;
 import util.ConnectionFactory;
 
 public class App {
@@ -28,7 +31,25 @@ public class App {
         
         //projectController.removeById(1);
         
-        List<Project> projects = projectController.getAll();
-        System.out.println("Total de projetos: " + projects.size());
+        /*List<Project> projects = projectController.getAll();
+        System.out.println("Total de projetos: " + projects.size());*/
+        
+        /*TaskController taskController = new TaskController();
+        
+        Task t = new Task();
+        t.setIdProject(2);
+        t.setName("criar telas da aplicação");
+        t.setDescription("criar tela de cadastros");
+        t.setNotes("sem notas");
+        t.setIsCompleted(false);
+        t.setDeadline(new Date());
+        
+        //taskController.save(t);
+        t.setName("Alterar tela da aplicação");
+        t.setId(3);
+        taskController.update(t);
+        List<Task> tasks = taskController.getAll(2);
+        System.out.println("Total de tarefas: " + tasks.size());
+        taskController.removeById(1);*/
     }
 }

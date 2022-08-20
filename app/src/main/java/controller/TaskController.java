@@ -42,9 +42,9 @@ public class TaskController {
             statement.setString(3, task.getDescription());
             statement.setBoolean(4, task.isIsCompleted());
             statement.setString(5, task.getNotes());
-            statement.setDate(6, new Date(task.getDeadline().getTime()));
-            statement.setDate(7, new Date(task.getCreatedAt().getTime()));
-            statement.setDate(8, new Date(task.getUpdateAt().getTime()));
+            statement.setDate(6, new java.sql.Date(task.getDeadline().getTime()));
+            statement.setDate(7, new java.sql.Date(task.getCreatedAt().getTime()));
+            statement.setDate(8, new java.sql.Date(task.getUpdateAt().getTime()));
             statement.execute();
         } catch (Exception ex)   {
             throw new RuntimeException("Erro ao salvar a tarefa"
@@ -64,7 +64,7 @@ public class TaskController {
                 + "completed = ?, "
                 + "deadline = ?, "
                 + "createdAt = ?, "
-                + "updatedAt = ?, "
+                + "updatedAt = ? "
                 + "WHERE id = ?";
         
         Connection connection = null;
@@ -78,18 +78,20 @@ public class TaskController {
             statement.setString(3, task.getDescription());
             statement.setString(4, task.getNotes());
             statement.setBoolean(5, task.isIsCompleted());
-            statement.setDate(6, new Date(task.getDeadline().getTime()));
-            statement.setDate(7, new Date(task.getCreatedAt().getTime()));
-            statement.setDate(8, new Date(task.getUpdateAt().getTime()));
+            statement.setDate(6, new java.sql.Date(task.getDeadline().getTime()));
+            statement.setDate(7, new java.sql.Date(task.getCreatedAt().getTime()));
+            statement.setDate(8, new java.sql.Date(task.getUpdateAt().getTime()));
             statement.setInt(9, task.getId());
             statement.execute();
         }    catch (Exception ex){
                 throw new RuntimeException("Erro ao atualizar a tarefa" + ex.getMessage(), ex);
+            } finally {
+                ConnectionFactory.closeConnection(connection, statement);
             }
             
     }
     
-    public void removeById(int taskId) throws SQLException{
+    public void removeById(int taskId) {//throws SQLException{
         String sql = "DELETE FROM tasks WHERE id = ?";
         
         Connection conn = null;
