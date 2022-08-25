@@ -109,6 +109,11 @@ public class MainScreen extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(600, 800));
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         jPanelToolBar.setBackground(new java.awt.Color(0, 255, 204));
 
@@ -282,6 +287,11 @@ public class MainScreen extends javax.swing.JFrame {
         jTableTasks.setSelectionBackground(new java.awt.Color(204, 0, 204));
         jTableTasks.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTableTasks.setShowHorizontalLines(true);
+        jTableTasks.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableTasksMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableTasks);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -344,6 +354,23 @@ public class MainScreen extends javax.swing.JFrame {
         //taskDialogScreen.setProject(null);
         taskDialogScreen.setVisible(true);
     }//GEN-LAST:event_jLabelTasksAddMouseClicked
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formMouseClicked
+
+    private void jTableTasksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTasksMouseClicked
+        // TODO add your handling code here:
+        int rowIndex = jTableTasks.rowAtPoint(evt.getPoint());
+        int columnIndex = jTableTasks.columnAtPoint(evt.getPoint());
+        
+        switch (columnIndex) {
+            case 3:
+                Task task = taskModel.getTasks().get(rowIndex);
+                taskController.update(task);
+                break;
+        }
+    }//GEN-LAST:event_jTableTasksMouseClicked
 
     /**
      * @param args the command line arguments
