@@ -63,7 +63,7 @@ public class MainScreen extends javax.swing.JFrame {
         jLabelTasksAdd = new javax.swing.JLabel();
         jPanelProjectsList = new javax.swing.JPanel();
         jScrollPaneProjects = new javax.swing.JScrollPane();
-        jListProject = new javax.swing.JList<>();
+        jListProjects = new javax.swing.JList<>();
         jPanelConteinerTasks = new javax.swing.JPanel();
         jPanelEmptyList = new javax.swing.JPanel();
         jLabelEmptyListIcon = new javax.swing.JLabel();
@@ -221,15 +221,15 @@ public class MainScreen extends javax.swing.JFrame {
         jPanelProjectsList.setBackground(java.awt.Color.white);
         jPanelProjectsList.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jListProject.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jListProject.setFixedCellHeight(50);
-        jListProject.setSelectionBackground(new java.awt.Color(204, 0, 204));
-        jListProject.addMouseListener(new java.awt.event.MouseAdapter() {
+        jListProjects.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jListProjects.setFixedCellHeight(50);
+        jListProjects.setSelectionBackground(new java.awt.Color(204, 0, 204));
+        jListProjects.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jListProjectMouseClicked(evt);
+                jListProjectsMouseClicked(evt);
             }
         });
-        jScrollPaneProjects.setViewportView(jListProject);
+        jScrollPaneProjects.setViewportView(jListProjects);
 
         javax.swing.GroupLayout jPanelProjectsListLayout = new javax.swing.GroupLayout(jPanelProjectsList);
         jPanelProjectsList.setLayout(jPanelProjectsListLayout);
@@ -381,13 +381,13 @@ public class MainScreen extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTableTasksMouseClicked
 
-    private void jListProjectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListProjectMouseClicked
+    private void jListProjectsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListProjectsMouseClicked
         // TODO add your handling code here:
         //pegando indice do projeto para carregar suas tarefas
-        int projectIndex = jListProject.getSelectedIndex();
+        int projectIndex = jListProjects.getSelectedIndex();
         Project project = (Project) projectsModel.get(projectIndex); 
         loadTasks(project.getId());
-    }//GEN-LAST:event_jListProjectMouseClicked
+    }//GEN-LAST:event_jListProjectsMouseClicked
 
     /**
      * @param args the command line arguments
@@ -434,7 +434,7 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelTasksTitle;
     private javax.swing.JLabel jLabelToolBarSubTitle;
     private javax.swing.JLabel jLabelToolBarTitle;
-    private javax.swing.JList<String> jListProject;
+    private javax.swing.JList<String> jListProjects;
     private javax.swing.JPanel jPanelConteinerTasks;
     private javax.swing.JPanel jPanelEmptyList;
     private javax.swing.JPanel jPanelProjects;
@@ -469,7 +469,14 @@ public class MainScreen extends javax.swing.JFrame {
         
         taskModel = new TaskTableModel();
         jTableTasks.setModel(taskModel);
-        loadTasks(2);
+        
+        //forçando seleção do primeiro projeto na list e exibindo suas tarefas
+        if (!projectsModel.isEmpty()) {
+            jListProjects.setSelectedIndex(0);
+            int projectIndex = jListProjects.getSelectedIndex();
+            Project project = (Project) projectsModel.get(projectIndex);
+            loadTasks(project.getId());
+        }
     }
     
     public void loadTasks( int idProject) {
@@ -511,6 +518,6 @@ public class MainScreen extends javax.swing.JFrame {
             Project project = projects.get(i);
             projectsModel.addElement(project);
         }
-        jListProject.setModel(projectsModel);
+        jListProjects.setModel(projectsModel);
     }
 }
