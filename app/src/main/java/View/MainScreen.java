@@ -249,6 +249,7 @@ public class MainScreen extends javax.swing.JFrame {
         );
 
         jPanelConteinerTasks.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelConteinerTasks.setLayout(new java.awt.BorderLayout());
 
         jPanelEmptyList.setBackground(java.awt.Color.white);
 
@@ -287,26 +288,7 @@ public class MainScreen extends javax.swing.JFrame {
                 .addContainerGap(138, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanelConteinerTasksLayout = new javax.swing.GroupLayout(jPanelConteinerTasks);
-        jPanelConteinerTasks.setLayout(jPanelConteinerTasksLayout);
-        jPanelConteinerTasksLayout.setHorizontalGroup(
-            jPanelConteinerTasksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 458, Short.MAX_VALUE)
-            .addGroup(jPanelConteinerTasksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelConteinerTasksLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanelEmptyList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
-        );
-        jPanelConteinerTasksLayout.setVerticalGroup(
-            jPanelConteinerTasksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 439, Short.MAX_VALUE)
-            .addGroup(jPanelConteinerTasksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelConteinerTasksLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanelEmptyList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
-        );
+        jPanelConteinerTasks.add(jPanelEmptyList, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -318,8 +300,8 @@ public class MainScreen extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanelProjectsList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelProjects, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelConteinerTasks, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelTasks, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -361,7 +343,22 @@ public class MainScreen extends javax.swing.JFrame {
         
         TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
         //taskDialogScreen.setProject(null);
+        
+        //coletando indice do projeto para inserir tarefa
+        int projectIndex = jListProjects.getSelectedIndex();
+        Project project = (Project) projectsModel.get(projectIndex);
+        taskDialogScreen.setProject(project);
+        
         taskDialogScreen.setVisible(true);
+        
+        //inserindo instataneamente tarefas em seus projetos
+        taskDialogScreen.addWindowListener(new WindowAdapter() {
+            public void windowClosed(WindowEvent e){
+                int projectIndex = jListProjects.getSelectedIndex();
+                Project project = (Project) projectsModel.get(projectIndex);
+                loadTasks(project.getId());
+            }
+        });
     }//GEN-LAST:event_jLabelTasksAddMouseClicked
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
@@ -373,10 +370,22 @@ public class MainScreen extends javax.swing.JFrame {
         int rowIndex = jTableTasks.rowAtPoint(evt.getPoint());
         int columnIndex = jTableTasks.columnAtPoint(evt.getPoint());
         
+        Task task = taskModel.getTasks().get(rowIndex);
+        
         switch (columnIndex) {
             case 3:
-                Task task = taskModel.getTasks().get(rowIndex);
+                //atualizando status da tarefa(concluida/nao concluida)
                 taskController.update(task);
+                break;
+            case 5:
+                //removendo uma tarefa
+                taskController.removeById(task.getId());
+                taskModel.getTasks().remove(task);
+                
+                int projectIndex = jListProjects.getSelectedIndex();
+                Project project = (Project) projectsModel.get(projectIndex);
+                loadTasks(project.getId());
+                
                 break;
         }
     }//GEN-LAST:event_jTableTasksMouseClicked
