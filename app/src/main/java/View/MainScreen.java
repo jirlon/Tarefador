@@ -15,6 +15,7 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import model.Project;
 import model.Task;
+import util.DeadlineColumnCellRenderer;
 import util.TaskTableModel;
 
 /**
@@ -32,13 +33,13 @@ public class MainScreen extends javax.swing.JFrame {
     
     public MainScreen() {
         initComponents();
-        decorateTableTask();
         
         //metodo que inicia controladores
         initDataController();
         
         initComponentsModel();
         
+        decorateTableTask();     
     }
 
     /**
@@ -462,6 +463,9 @@ public class MainScreen extends javax.swing.JFrame {
         jTableTasks.getTableHeader().setBackground(new Color(0, 255, 204));
         jTableTasks.getTableHeader().setForeground(new Color(255, 255, 255));
 
+        //chamando o renderer para a celula do prazo da tarefa 
+        jTableTasks.getColumnModel().getColumn(2).setCellRenderer(new DeadlineColumnCellRenderer());
+        
         //criando um sort automatico para as colunas da tabela tasks
         jTableTasks.setAutoCreateRowSorter(true);
     }
