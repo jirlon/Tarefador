@@ -15,6 +15,7 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import model.Project;
 import model.Task;
+import util.ButtonColumnCellRenderer;
 import util.DeadlineColumnCellRenderer;
 import util.TaskTableModel;
 
@@ -465,6 +466,12 @@ public class MainScreen extends javax.swing.JFrame {
 
         //chamando o renderer para a celula do prazo da tarefa 
         jTableTasks.getColumnModel().getColumn(2).setCellRenderer(new DeadlineColumnCellRenderer());
+        
+        //chamando o renderer para a celula do botao editar da tarefa 
+        jTableTasks.getColumnModel().getColumn(4).setCellRenderer(new ButtonColumnCellRenderer("edit"));
+        
+        //chamando o renderer para a celula do botao deletar da tarefa 
+        jTableTasks.getColumnModel().getColumn(5).setCellRenderer(new ButtonColumnCellRenderer("delete"));
         
         //criando um sort automatico para as colunas da tabela tasks
         jTableTasks.setAutoCreateRowSorter(true);
