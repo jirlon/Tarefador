@@ -17,9 +17,10 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
     ProjectController controller;
     
     public ProjectDialogScreen(java.awt.Frame parent, boolean modal) {
+        
         super(parent, modal);
         initComponents();
-        
+        hideErrorField();
         controller = new ProjectController();
     }
 
@@ -41,6 +42,7 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
         jLabelDescription = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextAreaDescription = new javax.swing.JTextArea();
+        jLabelNameError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -86,6 +88,9 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
         jTextAreaDescription.setRows(5);
         jScrollPane1.setViewportView(jTextAreaDescription);
 
+        jLabelNameError.setForeground(new java.awt.Color(255, 0, 0));
+        jLabelNameError.setText("Campo obrigatório");
+
         javax.swing.GroupLayout jPanelProjectLayout = new javax.swing.GroupLayout(jPanelProject);
         jPanelProject.setLayout(jPanelProjectLayout);
         jPanelProjectLayout.setHorizontalGroup(
@@ -98,7 +103,8 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
                         .addGap(100, 100, 100))
                     .addComponent(jLabelDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1)
-                    .addComponent(jTextFieldName)))
+                    .addComponent(jTextFieldName)
+                    .addComponent(jLabelNameError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanelProjectLayout.setVerticalGroup(
             jPanelProjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,11 +113,13 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
                 .addComponent(jLabelName, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(1, 1, 1)
+                .addComponent(jLabelNameError)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabelDescription)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -138,7 +146,7 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
         // TODO add your handling code here:
         
         try {
-            if (!jTextFieldName.getText().equals("")) {//validação do campo nome(nao pode ser vazio)
+            if (isFieldValid()) {//validação do campo nome(nao pode ser vazio)
                 Project project = new Project();
                 project.setName(jTextFieldName.getText());
                 project.setDescription(jTextAreaDescription.getText());
@@ -147,7 +155,8 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(rootPane, "Projeto salvo com sucesso");
                 this.dispose();
             }else{
-                JOptionPane.showMessageDialog(rootPane, "Falhou, campo NOME vazio");
+                jLabelNameError.setVisible(true);
+                //JOptionPane.showMessageDialog(rootPane, "Falhou, campo NOME vazio");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
@@ -199,6 +208,7 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabelDescription;
     private javax.swing.JLabel jLabelName;
+    private javax.swing.JLabel jLabelNameError;
     private javax.swing.JLabel jLabelToolBarSave;
     private javax.swing.JLabel jLabelToolBarTitle;
     private javax.swing.JPanel jPanelProject;
@@ -207,4 +217,12 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
     private javax.swing.JTextArea jTextAreaDescription;
     private javax.swing.JTextField jTextFieldName;
     // End of variables declaration//GEN-END:variables
+
+public void hideErrorField(){
+    jLabelNameError.setVisible(false);
+}
+
+public boolean isFieldValid(){
+    return (!jTextFieldName.getText().isEmpty());
+}
 }
