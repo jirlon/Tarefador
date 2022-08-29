@@ -342,7 +342,8 @@ public class MainScreen extends javax.swing.JFrame {
 
     private void jLabelTasksAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelTasksAddMouseClicked
         // TODO add your handling code here:
-        //metofo para criação da tarefa 
+        TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
+        //metodo para criação da tarefa 
         taskCreate();
     }//GEN-LAST:event_jLabelTasksAddMouseClicked
 
@@ -364,7 +365,7 @@ public class MainScreen extends javax.swing.JFrame {
                 break;
             case 4:
                 //atualizando a tarefa no botao edit
-                taskCreate(task);
+                taskCreate();
                 break;
             case 5:
                 //removendo uma tarefa
@@ -528,12 +529,13 @@ public class MainScreen extends javax.swing.JFrame {
         jListProjects.setModel(projectsModel);
     }
     
-    public void taskCreate(Task task){
+    public void taskCreate(){
         TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
         
         //coletando indice do projeto para inserir tarefa
         int projectIndex = jListProjects.getSelectedIndex();
         Project project = (Project) projectsModel.get(projectIndex);
+        //teria que carregar os dados aqui 
         taskDialogScreen.setProject(project);
         
         taskDialogScreen.setVisible(true);
