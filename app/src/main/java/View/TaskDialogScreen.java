@@ -310,4 +310,6 @@ public class TaskDialogScreen extends javax.swing.JDialog {
         return (!jTextFieldName.getText().isEmpty() && 
                 !jFormattedTextFieldDeadline.getText().isEmpty());
     }
+    
+    
 }

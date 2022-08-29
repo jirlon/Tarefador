@@ -342,25 +342,8 @@ public class MainScreen extends javax.swing.JFrame {
 
     private void jLabelTasksAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelTasksAddMouseClicked
         // TODO add your handling code here:
-        
-        TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
-        //taskDialogScreen.setProject(null);
-        
-        //coletando indice do projeto para inserir tarefa
-        int projectIndex = jListProjects.getSelectedIndex();
-        Project project = (Project) projectsModel.get(projectIndex);
-        taskDialogScreen.setProject(project);
-        
-        taskDialogScreen.setVisible(true);
-        
-        //inserindo instataneamente tarefas em seus projetos
-        taskDialogScreen.addWindowListener(new WindowAdapter() {
-            public void windowClosed(WindowEvent e){
-                int projectIndex = jListProjects.getSelectedIndex();
-                Project project = (Project) projectsModel.get(projectIndex);
-                loadTasks(project.getId());
-            }
-        });
+        //metofo para criação da tarefa 
+        taskCreate();
     }//GEN-LAST:event_jLabelTasksAddMouseClicked
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
@@ -378,6 +361,10 @@ public class MainScreen extends javax.swing.JFrame {
             case 3:
                 //atualizando status da tarefa(concluida/nao concluida)
                 taskController.update(task);
+                break;
+            case 4:
+                //atualizando a tarefa no botao edit
+                taskCreate(task);
                 break;
             case 5:
                 //removendo uma tarefa
@@ -539,5 +526,25 @@ public class MainScreen extends javax.swing.JFrame {
             projectsModel.addElement(project);
         }
         jListProjects.setModel(projectsModel);
+    }
+    
+    public void taskCreate(Task task){
+        TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
+        
+        //coletando indice do projeto para inserir tarefa
+        int projectIndex = jListProjects.getSelectedIndex();
+        Project project = (Project) projectsModel.get(projectIndex);
+        taskDialogScreen.setProject(project);
+        
+        taskDialogScreen.setVisible(true);
+        
+        //inserindo instataneamente tarefas em seus projetos
+        taskDialogScreen.addWindowListener(new WindowAdapter() {
+            public void windowClosed(WindowEvent e){
+                int projectIndex = jListProjects.getSelectedIndex();
+                Project project = (Project) projectsModel.get(projectIndex);
+                loadTasks(project.getId());
+            }
+        });
     }
 }
