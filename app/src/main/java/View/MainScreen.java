@@ -365,7 +365,8 @@ public class MainScreen extends javax.swing.JFrame {
                 break;
             case 4:
                 //atualizando a tarefa no botao edit
-                taskCreate();
+                taskEdit(task);
+                //taskCreate();
                 break;
             case 5:
                 //removendo uma tarefa
@@ -537,7 +538,6 @@ public class MainScreen extends javax.swing.JFrame {
         Project project = (Project) projectsModel.get(projectIndex);
         //teria que carregar os dados aqui 
         taskDialogScreen.setProject(project);
-        
         taskDialogScreen.setVisible(true);
         
         //inserindo instataneamente tarefas em seus projetos
@@ -548,5 +548,31 @@ public class MainScreen extends javax.swing.JFrame {
                 loadTasks(project.getId());
             }
         });
+    }
+    
+    public void taskCreate(Task t){
+        TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
+        
+        //coletando indice do projeto para inserir tarefa
+        int projectIndex = jListProjects.getSelectedIndex();
+        Project project = (Project) projectsModel.get(projectIndex);
+        //teria que carregar os dados aqui 
+        taskDialogScreen.setProject(project);
+        taskDialogScreen.setTask(t);
+        taskDialogScreen.setVisible(true);
+        
+        //inserindo instataneamente tarefas em seus projetos
+        taskDialogScreen.addWindowListener(new WindowAdapter() {
+            public void windowClosed(WindowEvent e){
+                int projectIndex = jListProjects.getSelectedIndex();
+                Project project = (Project) projectsModel.get(projectIndex);
+                loadTasks(project.getId());
+            }
+        });
+    }
+    
+    public void taskEdit(Task t){
+        taskCreate(t);
+        taskController.update(t);
     }
 }

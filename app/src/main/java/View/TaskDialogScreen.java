@@ -21,6 +21,8 @@ public class TaskDialogScreen extends javax.swing.JDialog {
     
     Project project;
     
+    Task task;
+    
     public TaskDialogScreen(java.awt.Frame parent, boolean modal) {
         
         super(parent, modal);
@@ -297,6 +299,10 @@ public class TaskDialogScreen extends javax.swing.JDialog {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+    
+    public void setTask(Task t) {
+        this.task = t;
     }
     
     //label campos obrigatorios setados em falso 
